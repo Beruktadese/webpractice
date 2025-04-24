@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YeEthiopia Games - የኢትዮጵያ ጨዋታዎች</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Habibi&family=Katibeh&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #078930;
+            --yellow: #fcdd09;
+            --red: #da121a;
+            --blue: #0f47af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Habibi', serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, #fafafa, #fff5e6);
+            color: #333;
+        }
+
+        /* Ethiopian Pattern Border */
+        .ethiopian-border {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .ethiopian-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: repeating-linear-gradient(45deg,
+                var(--green) 0px, var(--green) 20px,
+                var(--yellow) 20px, var(--yellow) 40px,
+                var(--red) 40px, var(--red) 60px);
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            animation: slideDown 1s ease-out;
+        }
+
+        .header-title {
+            font-family: 'Katibeh', cursive;
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header-subtitle {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(15, 71, 175, 0.95);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: var(--yellow);
+            color: var(--blue);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: linear-gradient(45deg,
+                var(--green) 0%,
+                var(--yellow) 25%,
+                var(--red) 50%,
+                var(--blue) 75%);
+            animation: rotateBg 20s linear infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            background: rgba(0,0,0,0.6);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .hero-content h1 {
+            font-family: 'Katibeh', cursive;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Games Section */
+        .games-container {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Katibeh', cursive;
+            font-size: 3rem;
+            color: var(--blue);
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--red);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .game-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .game-image::after {
+            content: attr(data-title-am);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 71, 175, 0.8);
+            color: white;
+            padding: 1rem;
+            font-family: 'Katibeh', cursive;
+            font-size: 1.5rem;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .game-card:hover .game-image::after {
+            transform: translateY(0);
+        }
+
+        .game-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .game-content h3 {
+            color: var(--blue);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .play-btn {
+            background: linear-gradient(45deg, var(--green), var(--blue));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(15, 71, 175, 0.3);
+        }
+
+        /* Animations */
+        @keyframes rotateBg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--yellow);
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2.5rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+               /* Add these new styles */
+               :root {
+            --bg-color: #fafafa;
+            --text-color: #333;
+            --header-bg: linear-gradient(135deg, var(--green), var(--blue));
+            --nav-bg: rgba(15, 71, 175, 0.95);
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #fff;
+            --header-bg: linear-gradient(135deg, #0d4d1a, #0a2f6b);
+            --nav-bg: rgba(10, 47, 107, 0.95);
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background: var(--header-bg);
+        }
+
+        nav {
+            background: var(--nav-bg);
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1001;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: var(--yellow);
+        }
+    </style>
+</head>
+<body>
+    <header class="ethiopian-border">
+        <h1 class="header-title">የኢትዮጵያ ጨዋታዎች</h1>
+        <p class="header-subtitle">Preserving Ethiopia's Gaming Heritage</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#home">መነሻ | Home</a></li>
+            <li><a href="#games">ጨዋታዎች | Games</a></li>
+            <li><a href="#about">ስለኛ | About</a></li>
+            <li><a href="#contact">ተገናኝ | Contact</a></li>
+        </ul>
+    </nav>
+    <div class="controls">
+      <button class="control-btn" id="themeToggle">🌓</button>
+      <button class="control-btn" id="langToggle">EN/AM</button>
+      <button class="control-btn" id="voiceBtn">🎤</button>
+  </div>
+
+    <section class="hero ethiopian-border">
+        <div class="hero-content">
+            <h1>Discover Ethiopia's Ancient Games</h1>
+            <p>Experience over 3000 years of gaming tradition</p>
+            <button class="play-btn" onclick="showGames()">Start Playing →</button>
+        </div>
+    </section>
+
+    <section class="games-container" id="games">
+        <h2 class="section-title">Traditional Games</h2>
+        <div class="games-grid">
+            <!-- Game cards will be dynamically added here -->
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal" id="gameModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <iframe id="gameFrame" width="100%" height="600" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>የኢትዮጵያ ጨዋታዎች</h3>
+                <p>Preserving our cultural heritage through interactive gaming</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">መነሻ</a></li>
+                    <li><a href="#games">ጨዋታዎች</a></li>
+                    <li><a href="#about">ታሪክ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 2rem;">© 2023 YeEthiopia Games. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Enhanced game data with Amharic titles
+        // const games = [
+        //     {
+        //         title: "Gebeta (ገበጣ)",
+        //         titleAm: "ገበጣ",
+        //         description: "Ancient strategic board game with seeds",
+        //         image: "https://images.unsplash.com/photo-1635863138276-2bdb56f1b37a",
+        //         url: "https://example.com/gebeta"
+        //     },
+        //     {
+        //         title: "Qarsa (ቃርሳ)",
+        //         titleAm: "ቃርሳ",
+        //         description: "Traditional Ethiopian horse racing game",
+        //         image: "https://images.unsplash.com/photo-1553272725-086100a252f3",
+        //         url: "https://example.com/qarsa"
+        //     },
+        //     {
+        //         title: "Dirkosh (ድርቆሽ)",
+        //         titleAm: "ድርቆሽ",
+        //         description: "High-jump game using sticks",
+        //         image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12",
+        //         url: "https://example.com/dirkosh"
+        //     }
+        // ];
+
+        // Initialize games with animations
+        function initGames() {
+            const grid = document.querySelector('.games-grid');
+            games.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.innerHTML = `
+                    <div class="game-image" 
+                         style="background-image: url(${game.image})"
+                         data-title-am="${game.titleAm}">
+                    </div>
+                    <div class="game-content">
+                        <h3>${game.title}</h3>
+                        <p>${game.description}</p>
+                        <button class="play-btn" onclick="openGame('${game.url}')">Play →</button>
+                    </div>
+                `;
+                card.style.animation = `fadeInUp 0.5s ease-out ${index * 0.2}s both`;
+                grid.appendChild(card);
+            });
+        }
+
+        // Modal functions
+        function openGame(url) {
+            document.getElementById('gameFrame').src = url;
+            document.getElementById('gameModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('gameModal').style.display = 'none';
+            document.getElementById('gameFrame').src = '';
+        }
+
+        // Scroll to games
+        function showGames() {
+            document.getElementById('games').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initialize when page loads
+        window.onload = () => {
+            initGames();
+            document.querySelectorAll('.game-card').forEach(card => {
+                observer.observe(card);
+            });
+        };
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('gameModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+         // Enhanced content with translations
+         const content = {
+            en: {
+                headerTitle: "Ethiopian Traditional Games",
+                headerSubtitle: "Preserving Ethiopia's Gaming Heritage",
+                nav: ["Home", "Games", "About", "Contact"],
+                gamesTitle: "Traditional Games",
+                footer: {
+                    title: "Ethiopian Games",
+                    desc: "Preserving our cultural heritage through interactive gaming",
+                    links: ["Home", "Games", "History"]
+                }
+            },
+            am: {
+                headerTitle: "የኢትዮጵያ ባህላዊ ጨዋታዎች",
+                headerSubtitle: "የኢትዮጵያን የጨዋታ ቅርስ በማዳከም ላይ",
+                nav: ["መነሻ", "ጨዋታዎች", "ስለኛ", "ተገናኝ"],
+                gamesTitle: "ባህላዊ ጨዋታዎች",
+                footer: {
+                    title: "የኢትዮጵያ ጨዋታዎች",
+                    desc: "ባህላዊ ቅርሶቻችንን በአማራጭ ጨዋታዎች እያዳከምን",
+                    links: ["መነሻ", "ጨዋታዎች", "ታሪክ"]
+                }
+            }
+        };
+
+        // Game data with translations
+        const games = [
+            {
+                title: { en: "Gebeta (Mancala)", am: "ገበጣ" },
+                description: { 
+                    en: "Ancient strategic board game with seeds", 
+                    am: "የባህላዊ የስልት ጨዋታ ከእህል ጋር" 
+                },
+                image: "https://images.unsplash.com/photo-1635863138276-2bdb56f1b37a",
+                url: "#"
+            },
+            {
+                title: { en: "Qarsa (Jump Game)", am: "ቃርሳ" },
+                description: { 
+                    en: "Traditional Ethiopian horse racing game", 
+                    am: "የአህዋ እርማት ጨዋታ" 
+                },
+                image: "https://images.unsplash.com/photo-1553272725-086100a252f3",
+                url: "#"
+            },
+            {
+                title: { en: "Dirkosh (Stick Jump)", am: "ድርቆሽ" },
+                description: { 
+                    en: "High-jump game using sticks", 
+                    am: "በበትር የሚጫወት የፍጥነት ጨዋታ" 
+                },
+                image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12",
+                url: "#"
+            }
+        ];
+
+        let currentLang = 'en';
+        let darkMode = false;
+        const synth = window.speechSynthesis;
+
+        // Voice functions
+        function speak(text) {
+            if (synth.speaking) synth.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = currentLang === 'en' ? 'en-US' : 'am-ET';
+            synth.speak(utterance);
+        }
+
+        function explainGame(game) {
+            const description = game.description[currentLang];
+            speak(description);
+        }
+
+        // Language functions
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'am' : 'en';
+            updateContent();
+        }
+
+        function updateContent() {
+            // Update header
+            document.querySelector('.header-title').textContent = content[currentLang].headerTitle;
+            document.querySelector('.header-subtitle').textContent = content[currentLang].headerSubtitle;
+
+            // Update navigation
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach((link, index) => {
+                link.textContent = content[currentLang].nav[index] + (currentLang === 'en' ? ` | ${content['am'].nav[index]}` : '');
+            });
+
+            // Update games section
+            document.querySelector('.section-title').textContent = content[currentLang].gamesTitle;
+            renderGames();
+        }
+
+        function renderGames() {
+            const grid = document.querySelector('.games-grid');
+            grid.innerHTML = '';
+            
+            games.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.innerHTML = `
+                    <div class="game-image" 
+                         style="background-image: url(${game.image})"
+                         data-title-am="${game.title.am}">
+                    </div>
+                    <div class="game-content">
+                        <h3>${game.title[currentLang]}</h3>
+                        <p>${game.description[currentLang]}</p>
+                        <button class="play-btn" onclick="openGame('${game.url}')">
+                            ${currentLang === 'en' ? 'Play →' : 'ጨዋታ ጀምር →'}
+                        </button>
+                        <button class="play-btn" onclick="explainGame(${JSON.stringify(game).replace(/"/g, '&quot;')})" style="margin-top: 10px;">
+                            ${currentLang === 'en' ? 'Explain' : 'አስረዳ'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Theme functions
+        function toggleTheme() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode', darkMode);
+        }
+
+        // Event Listeners
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        document.getElementById('langToggle').addEventListener('click', toggleLanguage);
+        document.getElementById('voiceBtn').addEventListener('click', () => {
+            speak(currentLang === 'en' ? 
+                "Welcome to Ethiopian Traditional Games. Select a game to play." :
+                "ወደ የኢትዮጵያ ባህላዊ ጨዋታዎች በደህና መጡ። ለመጫወት ጨዋታ ይምረጡ።");
+        });
+
+        // Initialize
+        window.onload = () => {
+            updateContent();
+            document.querySelectorAll('.game-card').forEach(card => {
+                observer.observe(card);
+            });
+        };
+    </script>
+</body>
+</html>
